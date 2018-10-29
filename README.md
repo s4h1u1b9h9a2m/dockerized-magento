@@ -65,9 +65,44 @@ I suppose it will work on Windows, but I have not tested it. And I suspect that 
 3. Start the projects using `./magento start` or `docker-compose up`
 
 ```bash
-git clone https://github.com/andreaskoch/dockerized-magento.git && cd dockerized-magento
+git clone https://github.com/s4h1u1b9h9a2m/dockerized-magento.git && cd dockerized-magento
 ./magento start
 ```
+
+4. Flush Magento Cache
+
+```bash
+./magento magerun cache:dir:flush
+./magento magerun cache:clean
+./magento magerun index:reindex:all
+```
+5. Flush Redis Cache. To enter the bash of the redis container run: 
+
+```bash
+./magento enter dockerized-magento_cache_1
+```
+6. Run below command in Redis container
+
+```bash
+redis-cli flushall
+exit
+```
+If you're running magento in any server and want to access server without purchasing domain, follow below steps :
+
+1. In server, edit /etc/hosts file if in linux (for windows open to C:\Windows\System32\drivers\etc\hosts).
+
+```bash
+vim /etc/hosts
+echo "127.0.0.1    dockerized-magento.local" >> /etc/hosts
+```
+
+2. In client, edit /etc/hosts file if in linux (for windows open to C:\Windows\System32\drivers\etc\hosts). Replace the IP the server IP
+
+```bash
+echo "xxx.yyy.zzz.lll    dockerized-magento.local" >> /etc/hosts
+```
+
+
 
 During the first start of the project **docker-compose** will
 
